@@ -1,9 +1,22 @@
 const express = require('express');
 const healthController = require('../controllers/health');
 
-const router = express.Router();
-// Health endpoint
+const authRoutes = require('./auth');
+const dashboardRoutes = require('./dashboard');
 
+const router = express.Router();
+
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ */
+
+// Health endpoint
 /**
  * @swagger
  * /:
@@ -32,4 +45,8 @@ const router = express.Router();
  */
 router.get('/', healthController.check.bind(healthController));
 
+router.use('/api/auth', authRoutes);
+router.use('/api/dashboard', dashboardRoutes);
+
 module.exports = router;
+
